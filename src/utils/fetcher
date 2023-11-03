@@ -37,15 +37,15 @@ function getDMIInfo() {
 
 	dmiCPU="$(
 		echo "$data" |
-			jq '.[] | select(.description == "Processor Information")'
+			jq '[.[] | select(.description == "Processor Information")][0]'
 	)"
 	dmiBIOS="$(
 		echo "$data" |
-			jq '.[] | select(.description == "BIOS Information")'
+			jq '[.[] | select(.description == "BIOS Information")][0]'
 	)"
 	dmiSystem="$(
 		echo "$data" |
-			jq '.[] | select(.description == "System Information")'
+			jq '[.[] | select(.description == "System Information")][0]'
 	)"
 
 	DMI_DATA="$DMI_DATA\"cpu\":$dmiCPU,"
@@ -76,7 +76,7 @@ function getFullDataJson() {
 		log "$(ok "Generated a valid DMI data")"
 		JSON_DATA="$JSON_DATA\"dmi\":$DMI_DATA"
 	else
-		flog "$(err "Genrated DMI data is invalid check manually using command \`sudo dmidecode | jq --dmidecode\`")"
+		flog "$(err "Genrated DMI data is invalid check manually using command \`sudo dmidecode | jc --dmidecode\`")"
 		exit 1
 	fi
 
