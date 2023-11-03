@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+dependencies=(
+	"git"
+	"jq"
+	"jc"
+	"dmidecode"
+	"lscpu"
+	"lshw"
+)
+
+missingDependencies=()
+availableDependencies=()
+
+
+function checkDep() {
+	for dependency in "${dependencies[@]}"; do
+		if ! check "$dependency"; then
+			missingDependencies+=("$dependency")
+		else
+			availableDependencies+=("$dependency")
+		fi
+	done
+	logDependencies
+  if [[ ${#missingDependencies[@]} -gt 0 ]]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+function logDependencies() {
+
+	for dependency in "${availableDependencies[@]}"; do
+		log "$(ok "Dependency $dependency is available")"
+	done
+
+	for dependency in "${missingDependencies[@]}"; do
+		log "$(err "Dependency $dependency is not available")"
+	done
+
+}
+
+function checkRoot() {
+	# Check if the script is running as root or not.
+	# If not, then exit.
+	# This is required to run the script with sudo.
+	if [[ $EUID -ne 0 ]]; then
+		return 1
+	fi
+	return 0
+}

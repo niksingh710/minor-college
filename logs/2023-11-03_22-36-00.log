@@ -1,0 +1,16 @@
+[2023-11-03 22:36:00] :: Checking dependencies
+[2023-11-03 22:36:00] [  ] Dependency git is available
+[2023-11-03 22:36:00] [  ] Dependency jq is available
+[2023-11-03 22:36:00] [  ] Dependency jc is available
+[2023-11-03 22:36:00] [  ] Dependency dmidecode is available
+[2023-11-03 22:36:00] [  ] Dependency lscpu is available
+[2023-11-03 22:36:00] [  ] Dependency lshw is available
+[2023-11-03 22:36:00] 
+[2023-11-03 22:36:00] :: Checking root previleges
+[2023-11-03 22:36:00] [  ] Running as root
+[2023-11-03 22:36:00] 
+[2023-11-03 22:36:00] :: Generating CPU data
+[2023-11-03 22:36:01] [  ] Generated a valid CPU data
+[2023-11-03 22:36:01] 
+[2023-11-03 22:36:01] :: Generating DMI data
+[2023-11-03 22:36:01] [  ] Genrated DMI data is invalid check manually using command `sudo dmidecode | jq --dmidecode`

@@ -1,0 +1,20 @@
+[2023-11-03 22:36:23] :: Checking dependencies
+[2023-11-03 22:36:23] [  ] Dependency git is available
+[2023-11-03 22:36:23] [  ] Dependency jq is available
+[2023-11-03 22:36:23] [  ] Dependency jc is available
+[2023-11-03 22:36:23] [  ] Dependency dmidecode is available
+[2023-11-03 22:36:23] [  ] Dependency lscpu is available
+[2023-11-03 22:36:23] [  ] Dependency lshw is available
+[2023-11-03 22:36:23] 
+[2023-11-03 22:36:23] :: Checking root previleges
+[2023-11-03 22:36:23] [  ] Running as root
+[2023-11-03 22:36:23] 
+[2023-11-03 22:36:23] :: Generating CPU data
+[2023-11-03 22:36:23] [  ] Generated a valid CPU data
+[2023-11-03 22:36:23] 
+[2023-11-03 22:36:23] :: Generating DMI data
+[2023-11-03 22:36:23] [  ] Generated a valid DMI data
+[2023-11-03 22:36:23] 
+[2023-11-03 22:36:23] :: Compiling all data in one json
+[2023-11-03 22:36:23] :: Testing JSON data integrity
+[2023-11-03 22:36:23] [  ] Generated a valid JSON data

@@ -1,0 +1,9 @@
+[2023-11-03 22:35:19] :: Checking dependencies
+[2023-11-03 22:35:19] [  ] Dependency git is available
+[2023-11-03 22:35:19] [  ] Dependency jq is available
+[2023-11-03 22:35:19] [  ] Dependency jc is available
+[2023-11-03 22:35:19] [  ] Dependency dmidecode is available
+[2023-11-03 22:35:19] [  ] Dependency lscpu is available
+[2023-11-03 22:35:20] [  ] Dependency lshw is available
+[2023-11-03 22:35:20] [  ] Dependency sex is not available
+[2023-11-03 22:35:20] Please install the missing dependencies

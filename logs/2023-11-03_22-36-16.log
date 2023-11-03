@@ -1,0 +1,13 @@
+[2023-11-03 22:36:16] :: Checking dependencies
+[2023-11-03 22:36:16] [  ] Dependency git is available
+[2023-11-03 22:36:16] [  ] Dependency jq is available
+[2023-11-03 22:36:16] [  ] Dependency jc is available
+[2023-11-03 22:36:16] [  ] Dependency dmidecode is available
+[2023-11-03 22:36:16] [  ] Dependency lscpu is available
+[2023-11-03 22:36:16] [  ] Dependency lshw is available
+[2023-11-03 22:36:16] 
+[2023-11-03 22:36:16] :: Checking root previleges
+[2023-11-03 22:36:16] [  ] Running as root
+[2023-11-03 22:36:16] 
+[2023-11-03 22:36:16] :: Generating CPU data
+[2023-11-03 22:36:17] [  ] Genrated CPU data is invalid check manually using command `lscpu -J`

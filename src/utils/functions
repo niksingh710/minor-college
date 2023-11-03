@@ -1,0 +1,95 @@
+#!/usr/bin/bash
+
+function check() {
+	# This is an utility function to check if a command exists in system or not.
+	# This will return 0 if command exists and 1 if command does not exist.
+	# Usage: check "command"
+
+	command -v "$1" >/dev/null 2>&1
+}
+
+function loading() {
+	# Shows cli spinner while the command is running.
+	pid=$! # Process Id of the previous running command
+	spin[0]="-"
+	spin[1]="\\"
+	spin[2]="|"
+	spin[3]="/"
+
+	echo -n "$1${spin[0]}"
+	while kill -0 $pid 2>/dev/null; do
+		for i in "${spin[@]}"; do
+			echo -ne "\b$i"
+			sleep 0.1
+		done
+	done
+	echo -ne "\b"
+}
+
+function ok() {
+	echo -e "[  ] $*"
+	# echo -e "[+] $*"
+}
+
+function err() {
+	echo -e "[  ] $*"
+	# echo -e "[-] $*"
+}
+
+function notify() {
+	# This is an utility function to send notifications.
+	# If notify-send is installed, it will use it to send notifications.
+	# If notify-send is not installed, it will log the message to a file.
+
+	# shellcheck disable=SC2015
+	check notify-send && {
+		notify-send -a "Tux Smith" "$@"
+	} || {
+		log "$@"
+	}
+}
+
+function log() {
+	# This is an utility function to log messages to a file.
+	# Usage: log "message"
+	# Get the current date and time.
+	local timestamp
+	timestamp="[$(date +"%Y-%m-%d %H:%M:%S")]"
+
+	[ -d "$LOG_DIR" ] || mkdir "$LOG_DIR"
+	[ -f "$LOG_DIR/$LOG_FILE" ] || touch "$LOG_DIR/$LOG_FILE"
+
+	# Log the message to the file.
+	echo "$timestamp $*" >>"$LOG_DIR/$LOG_FILE"
+
+	# Display the message to the screen.
+	if $VERBOSE; then
+		echo "$*"
+	fi
+}
+
+function pause(){
+  # This is an utility function to pause the script This will reduce cpu processes for a while
+  sleep 2
+}
+
+function flog() {
+	# This will force the log (Good for error cases)
+	log "$*"
+	# Display the message to the screen.
+	if ! $VERBOSE; then
+		echo "$*"
+	fi
+}
+
+function isJson() {
+	local data="$1"
+
+	# Pipe the JSON data to the jq command.
+	# Use the `empty` filter to check if the JSON data is valid.
+	if jq -e . >/dev/null 2>&1 <<<"$data"; then
+		return 0
+	else
+		return 1
+	fi
+}
