@@ -9,7 +9,7 @@ function check() {
 }
 
 function checkNerdFont() {
-	if fc-list | grep -i "nerd"; then
+	if fc-list | grep -i "nerd" &>/dev/null; then
 		return 0
 	else
 		return 1
