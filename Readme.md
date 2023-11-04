@@ -39,12 +39,14 @@ curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup
 
 ```bash
 curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s uninstall
+# or
+cat ~/.local/share/minor-college/setup | bash -s uninstall
 ```
 
 # Update
 
 ```bash
-curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s udpate
+curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s update
 ```
 
 
