@@ -11,7 +11,6 @@ dependencies=(
 missingDependencies=()
 availableDependencies=()
 
-
 function checkDep() {
 	for dependency in "${dependencies[@]}"; do
 		if ! check "$dependency"; then
@@ -21,11 +20,11 @@ function checkDep() {
 		fi
 	done
 	logDependencies
-  if [[ ${#missingDependencies[@]} -gt 0 ]]; then
-    return 1
-  else
-    return 0
-  fi
+	if [[ ${#missingDependencies[@]} -gt 0 ]]; then
+		return 1
+	else
+		return 0
+	fi
 }
 
 function logDependencies() {

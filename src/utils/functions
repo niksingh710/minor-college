@@ -8,6 +8,14 @@ function check() {
 	command -v "$1" >/dev/null 2>&1
 }
 
+function checkNerdFont() {
+	if fc-list | grep -i "nerd"; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 function loading() {
 	# Shows cli spinner while the command is running.
 	pid=$! # Process Id of the previous running command
@@ -27,12 +35,20 @@ function loading() {
 }
 
 function ok() {
-	echo -e "[  ] $*"
+	if checkNerdFont; then
+		echo -e "[  ] $*"
+	else
+		echo -e "[ OK ] $*"
+	fi
 	# echo -e "[+] $*"
 }
 
 function err() {
-	echo -e "[  ] $*"
+  if checkNerdFont; then
+    echo -e "[  ] $*"
+  else
+    echo -e "[ ERR ] $*"
+  fi
 	# echo -e "[-] $*"
 }
 
@@ -68,9 +84,9 @@ function log() {
 	fi
 }
 
-function pause(){
-  # This is an utility function to pause the script This will reduce cpu processes for a while
-  sleep 2
+function pause() {
+	# This is an utility function to pause the script This will reduce cpu processes for a while
+	sleep 2
 }
 
 function flog() {

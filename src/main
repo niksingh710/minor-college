@@ -63,7 +63,7 @@ performChecks() {
 	log ""
 	log ":: Checking root previleges"
 	if ! checkRoot; then
-		flog "Please run this script as root"
+    flog "Please run this script as root. use (pkexec <command>)"
 		exit 1
 	else
 		log $(ok "Running as root")

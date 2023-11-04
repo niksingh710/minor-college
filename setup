@@ -3,17 +3,31 @@
 check() {
 	command -v "$1" >/dev/null 2>&1
 }
+function checkNerdFont() {
+	if fc-list | grep -i "nerd" &>/dev/null; then
+		return 0
+	else
+		return 1
+	fi
+}
 
 function ok() {
-	echo -e "[  ] $*"
+	if checkNerdFont; then
+		echo -e "[  ] $*"
+	else
+		echo -e "[ OK ] $*"
+	fi
 	# echo -e "[+] $*"
 }
 
 function err() {
-	echo -e "[  ] $*"
+	if checkNerdFont; then
+		echo -e "[  ] $*"
+	else
+		echo -e "[ ERR ] $*"
+	fi
 	# echo -e "[-] $*"
 }
-
 dependencies=(
 	"git"
 	"jq"
@@ -58,10 +72,10 @@ INSTALL_DIR="$HOME/.local/share/minor-college"
 GIT_REPO="https://github.com/niksingh710/minor-college.git"
 
 update() {
-  if [ ! -d "$INSTALL_DIR" ]; then
-    echo "Not installed"
-    exit
-  fi
+	if [ ! -d "$INSTALL_DIR" ]; then
+		echo "Not installed"
+		exit
+	fi
 	cd "$INSTALL_DIR"
 	git pull
 	echo "Succesfully Updated"
@@ -141,7 +155,7 @@ fixDep() {
 		echo "Successfully installed dependencies"
 	else
 		err "Failed to install dependencies"
-    echo ""
+		echo ""
 	fi
 }
 
