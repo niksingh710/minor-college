@@ -58,7 +58,11 @@ INSTALL_DIR="$HOME/.local/share/minor-college"
 GIT_REPO="https://github.com/niksingh710/minor-college.git"
 
 update() {
-	cd "$INSTALL_DIR" || exit
+  if [ ! -d "$INSTALL_DIR" ]; then
+    echo "Not installed"
+    exit
+  fi
+	cd "$INSTALL_DIR"
 	git pull
 	echo "Succesfully Updated"
 }

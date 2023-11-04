@@ -29,6 +29,27 @@ Before using this tool, make sure you have the following dependencies installed 
 - [jc](https://github.com/kellyjonbrazil/jc)
 - [dmidecode](https://linux.die.net/man/8/dmidecode)
 
+# Installation
+
+```bash
+curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s install
+```
+
+# Uninstallation
+
+```bash
+curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s uninstall
+```
+
+# Update
+
+```bash
+curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s udpate
+```
+
+
+
+
 ## Contributing
 
 👍 Contributions are welcome! Please feel free to submit issues, create pull requests, or suggest improvements. Together, we can make this tool even better!
