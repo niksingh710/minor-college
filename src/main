@@ -33,6 +33,13 @@ function getArgs() {
 			shift
 			exit
 			;;
+    --fix-dependencies)
+			VERBOSE=true
+      fixDep
+			shift
+			exit
+			;;
+
 		-h | --help)
 			help
 			shift
@@ -50,9 +57,66 @@ function getArgs() {
 help() {
 	echo "Usage: $0 [OPTIONS]"
 	echo "Options:"
-	echo "  -v, --verbose    Enable verbose mode"
-	echo "  -c, --check      Check dependencies"
+	echo "  -v, --verbose           Enable verbose mode"
+	echo "  -c, --check             Check dependencies"
+	echo "  --fix-dependencies      Fix dependencies and try To install it"
 }
+
+getDistro() {
+	if [ -f /etc/os-release ]; then
+		. /etc/os-release
+		echo "$NAME"
+	elif type lsb_release >/dev/null 2>&1; then
+		lsb_release -si
+	elif [ -f /etc/lsb-release ]; then
+		. /etc/lsb-release
+		echo "$DISTRIB_ID"
+	elif [ -f /etc/debian_version ]; then
+		echo "Debian"
+	elif [ -f /etc/SuSe-release ]; then
+		echo "SuSe"
+	elif [ -f /etc/redhat-release ]; then
+		echo "Red Hat"
+	else
+		echo "Unknown"
+	fi
+}
+
+
+
+fixDep() {
+  checkDep
+	distro=$(getDistro)
+	echo "Installing dependencies for $distro"
+	if [ "$distro" == "Ubuntu" ]; then
+		sudo apt install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Debian" ]; then
+		sudo apt install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Arch Linux" ]; then
+		sudo pacman -S "${missingDependencies[@]}"
+	elif [ "$distro" == "EndeavourOS" ]; then
+		sudo pacman -S "${missingDependencies[@]}"
+	elif [ "$distro" == "Fedora" ]; then
+		sudo dnf install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "CentOS" ]; then
+		sudo yum install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Red Hat" ]; then
+		sudo yum install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "SuSe" ]; then
+		sudo zypper install -y "${missingDependencies[@]}"
+	else
+		echo "Unknown Distro"
+	fi
+	if [ $? -eq 0 ]; then
+		log "Successfully installed dependencies"
+    exit
+	else
+		flog "Failed to install dependencies"
+		exit 1
+	fi
+  exit
+}
+
 
 performChecks() {
 	log ":: Checking dependencies"
