@@ -7,7 +7,6 @@ UTILS_DIR="$PROJECT_ROOT/src/utils"
 LOG_DIR="$PROJECT_ROOT/logs"
 LOG_FILE="$(date +%Y-%m-%d_%H-%M-%S).log"
 
-
 declare JSON_DATA
 
 VERBOSE=false
@@ -75,10 +74,11 @@ main() {
 	getArgs "$@"
 	performChecks
 	getFullDataJson
-  log ":: Testing JSON data integrity"  
+	log ":: Testing JSON data integrity"
 	if isJson "$JSON_DATA"; then
 		log "$(ok "Generated a valid JSON data")"
-		echo "$(echo $JSON_DATA | jq)" >"$PROJECT_ROOT/data.json"
+		# shellcheck disable=SC2005
+		echo "$(echo "$JSON_DATA" | jq)" >"$PROJECT_ROOT/data.json"
 	else
 		flog "$(err "Generated JSON data is invalid\nCheck Logs $LOG_DIR/$LOG_FILE")"
 		exit 1

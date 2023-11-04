@@ -13,6 +13,8 @@ function getCPUInfo() {
 	data="$(lscpu -J)"
 	length="$(echo "$data" | jq '.lscpu | length')"
 	CPU_DATA="{"
+	vulnerabilities="{"
+	cache="{"
 
 	for ((i = 0; i < length; i++)); do
 		key="$(
@@ -24,8 +26,25 @@ function getCPUInfo() {
 			echo "$data" |
 				jq ".lscpu[$i].data"
 		)"
-		CPU_DATA="$CPU_DATA\"$key\":$value,"
+		if [[ "$key" =~ "Vulnerability" ]]; then
+			vulnerabilities="$vulnerabilities\"$key\":$value,"
+		elif [[ "$key" =~ "cache" ]]; then
+			cache="$cache\"$key\":$value,"
+		else
+			CPU_DATA="$CPU_DATA\"$key\":$value,"
+		fi
+
 	done
+	vulnerabilities="${vulnerabilities::-1}}"
+	cache="${cache::-1}}"
+
+	if isJson "$vulnerabilities"; then
+		CPU_DATA="$CPU_DATA\"vulnerabilities\":$vulnerabilities,"
+	fi
+	if isJson "$cache"; then
+		CPU_DATA="$CPU_DATA\"cache\":$cache,"
+	fi
+
 	CPU_DATA="${CPU_DATA::-1}}"
 }
 
@@ -80,7 +99,7 @@ function getFullDataJson() {
 		exit 1
 	fi
 
-  log ""
-  log ":: Compiling all data in one json"
+	log ""
+	log ":: Compiling all data in one json"
 	JSON_DATA="$JSON_DATA}"
 }

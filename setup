@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+
+check() {
+	command -v "$1" >/dev/null 2>&1
+}
+
+function ok() {
+	echo -e "[  ] $*"
+	# echo -e "[+] $*"
+}
+
+function err() {
+	echo -e "[  ] $*"
+	# echo -e "[-] $*"
+}
+
+dependencies=(
+	"git"
+	"jq"
+	"jc"
+	"dmidecode"
+	"lscpu"
+	"lshw"
+)
+
+missingDependencies=()
+availableDependencies=()
+
+function checkDep() {
+	for dependency in "${dependencies[@]}"; do
+		if ! check "$dependency"; then
+			missingDependencies+=("$dependency")
+		else
+			availableDependencies+=("$dependency")
+		fi
+	done
+	logDependencies
+	if [[ ${#missingDependencies[@]} -gt 0 ]]; then
+		return 1
+	else
+		return 0
+	fi
+}
+
+function logDependencies() {
+
+	for dependency in "${availableDependencies[@]}"; do
+		ok "Dependency $dependency is available"
+	done
+
+	for dependency in "${missingDependencies[@]}"; do
+		err "Dependency $dependency is not available"
+	done
+
+}
+
+INSTALL_DIR="$HOME/.local/share/minor-college"
+GIT_REPO="https://github.com/niksingh710/minor-college.git"
+
+update() {
+	cd "$INSTALL_DIR" || exit
+	git pull
+	echo "Succesfully Updated"
+}
+
+uninstall() {
+	if [ -d "$INSTALL_DIR" ]; then
+		echo "Removing $INSTALL_DIR"
+		rm -rf "$INSTALL_DIR"
+		echo "Removing binary ->  $HOME/.local/bin/minor-college"
+		rm -rf "$HOME/.local/bin/minor-college"
+		echo "Succesfully Removed"
+	else
+		echo "Not installed"
+	fi
+}
+
+install() {
+	if [ -d "$INSTALL_DIR" ]; then
+		echo "Found already installed."
+		echo "Trying to update it"
+		update
+		exit
+	else
+		echo "Cloning $GIT_REPO"
+		git clone "$GIT_REPO" "$INSTALL_DIR"
+		ok "Succesfully installed"
+		echo "Linking binary ->  $HOME/.local/bin/minor-college"
+		if [ ! -d "$HOME/.local/bin" ]; then
+			mkdir -p "$HOME/.local/bin"
+		fi
+		ln -sf "$INSTALL_DIR/src/main" "$HOME/.local/bin/minor-college"
+	fi
+}
+
+getDistro() {
+	if [ -f /etc/os-release ]; then
+		. /etc/os-release
+		echo "$NAME"
+	elif type lsb_release >/dev/null 2>&1; then
+		lsb_release -si
+	elif [ -f /etc/lsb-release ]; then
+		. /etc/lsb-release
+		echo "$DISTRIB_ID"
+	elif [ -f /etc/debian_version ]; then
+		echo "Debian"
+	elif [ -f /etc/SuSe-release ]; then
+		echo "SuSe"
+	elif [ -f /etc/redhat-release ]; then
+		echo "Red Hat"
+	else
+		echo "Unknown"
+	fi
+}
+
+fixDep() {
+	distro=$(getDistro)
+	echo "Installing dependencies for $distro"
+	if [ "$distro" == "Ubuntu" ]; then
+		sudo apt install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Debian" ]; then
+		sudo apt install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Arch Linux" ]; then
+		sudo pacman -S "${missingDependencies[@]}"
+	elif [ "$distro" == "Fedora" ]; then
+		sudo dnf install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "CentOS" ]; then
+		sudo yum install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "Red Hat" ]; then
+		sudo yum install -y "${missingDependencies[@]}"
+	elif [ "$distro" == "SuSe" ]; then
+		sudo zypper install -y "${missingDependencies[@]}"
+	else
+		echo "Unknown Distro"
+	fi
+	if [ $? -eq 0 ]; then
+		echo "Successfully installed dependencies"
+	else
+		err "Failed to install dependencies"
+    echo ""
+	fi
+}
+
+if [ "$1" == "install" ]; then
+	checkDep
+	if [ ${#missingDependencies[@]} -gt 0 ]; then
+		fixDep
+	fi
+fi
+
+"$1"
