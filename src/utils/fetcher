@@ -101,5 +101,11 @@ function getFullDataJson() {
 
 	log ""
 	log ":: Compiling all data in one json"
-	JSON_DATA="$JSON_DATA}"
+	JSON_DATA="{\"raw\":$JSON_DATA}}"
+  if isJson "$JSON_DATA"; then
+    log "$(ok "Compiled Successfully")"
+  else
+    flog "$(err "Generated JSON data is invalid\nCheck Logs $LOG_DIR/$LOG_FILE")"
+    exit 1
+  fi
 }

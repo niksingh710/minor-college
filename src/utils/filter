@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+declare SYSTEM_JSON
+declare CPU_JSON
+declare BIOS_JSON
+declare FILTERED_DATA
+
+filterSystem() {
+	log ""
+	log ":: Filtering system data"
+	local system
+	system="$(echo "$JSON_DATA" | jq '.raw.dmi.system')"
+	SYSTEM_JSON=$(
+		cat <<-EOF
+			  {
+			    "manufacturer": $(echo "$system" | jq '.values.manufacturer'),
+			    "product": $(echo "$system" | jq '.values.product_name'),
+			    "serial": $(echo "$system" | jq '.values.serial'),
+			    "uuid": $(echo "$system" | jq '.values.uuid'),
+			    "family": $(echo "$system" | jq '.values.family')
+			  }
+		EOF
+	)
+	if isJson "$SYSTEM_JSON"; then
+		log "$(ok "System data filtered")"
+	else
+		flog "System data filtering failed"
+		exit 1
+	fi
+
+}
+
+filterBIOS() {
+	log ""
+	log ":: Filtering BIOS data"
+	local system
+	bios="$(echo "$JSON_DATA" | jq '.raw.dmi.bios')"
+	BIOS_JSON=$(
+		cat <<-EOF
+			{
+			  "About": {
+			        "vendor": $(echo "$bios" | jq '.values.vendor'),
+			    "version": $(echo "$bios" | jq '.values.version'),
+			    "release_date": $(echo "$bios" | jq '.values.release_date'),
+			    "runtime_size": $(echo "$bios" | jq '.values.runtime_size'),
+			    "rom_size": $(echo "$bios" | jq '.values.rom_size'),
+			    "bios_revision": $(echo "$bios" | jq '.values.bios_revision'),
+			    "firmware_revision": $(echo "$bios" | jq '.values.firmware_revision')
+			  },
+			  "characteristics": $(echo "$bios" | jq '.values.characteristics')
+			}
+		EOF
+	)
+	if isJson "$BIOS_JSON"; then
+		log "$(ok "System data filtered")"
+	else
+		flog "System data filtering failed"
+		exit 1
+	fi
+
+}
+
+filterCPU() {
+	log ""
+	log ":: Filtering cpu data"
+	local cpu
+	cpu="$(echo "$JSON_DATA" | jq '.raw.cpu')"
+	dmi="$(echo "$JSON_DATA" | jq '.raw.dmi')"
+	CPU_JSON=$(
+		cat <<-EOF
+			{
+			        "Model_name": $(echo "$cpu" | jq '.["Model name"]'),
+			  "About": {
+			          "Architecture": $(echo "$cpu" | jq '.["Architecture"]'),
+			    "Byte Order": $(echo "$cpu" | jq '.["Byte Order"]'),
+			    "CPU(s)": $(echo "$cpu" | jq '.["CPU(s)"]'),
+			    "On-line CPU(s) list": $(echo "$cpu" | jq '.["On-line CPU(s) list"]'),
+			    "Vendor ID": $(echo "$cpu" | jq '.["Vendor ID"]'),
+			    "BIOS Vendor ID": $(echo "$cpu" | jq '.["BIOS Vendor ID"]'),
+			    "Virtualization": $(echo "$cpu" | jq '.["Virtualization"]')
+			  },
+			  "Scaling": {
+			    "Frequency boost": $(echo "$cpu" | jq '.["Frequency boost"]'),
+			          "CPU(s) scaling MHz": $(echo "$cpu" | jq '.["CPU(s) scaling MHz"]'),
+			    "CPU max MHz": $(echo "$cpu" | jq '.["CPU max MHz"]'),
+			    "CPU min MHz": $(echo "$cpu" | jq '.["CPU min MHz"]')
+			  },
+			  "Core": {
+			    "Thread(s) per core": $(echo "$cpu" | jq '.["Thread(s) per core"]'),
+			    "Core(s) per socket": $(echo "$cpu" | jq '.["Core(s) per socket"]'),
+			          $(echo "$cpu" | jq '.["cache"]' | tail -n +2 | head -n -1)
+			  },
+			        "Vulnerability": $(echo "$cpu" | jq '.["vulnerabilities"]'),
+			        "characteristics": $(echo "$dmi" | jq '.cpu.values.characteristics'),
+			  "flags": $(echo "$dmi" | jq '.cpu.values.flags')
+			}
+
+		EOF
+	)
+	if isJson "$CPU_JSON"; then
+		log "$(ok "CPU data filtered")"
+	else
+		flog "CPU data filtering failed"
+		exit 1
+	fi
+
+}
+
+filterDATA() {
+  log ""
+  log "============================= Filtering data ============================="
+	filterSystem
+	filterCPU
+	filterBIOS
+
+	FILTERED_DATA=$(
+		cat <<-EOF
+			      {
+			        "system": $SYSTEM_JSON,
+			        "cpu": $CPU_JSON,
+			        "BIOS": $BIOS_JSON
+			      }
+		EOF
+	)
+}
