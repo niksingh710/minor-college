@@ -1,0 +1,114 @@
+{
+	"system": {
+		"manufacturer": "ASUSTeK COMPUTER INC.",
+		"product_name": "TUF Gaming FX705DT_FX705DT",
+		"serial_number": "K7NRCV006992276",
+		"family": "TUF Gaming"
+	},
+	"cpu": {
+		"Model_name": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
+		"About": {
+			"Architecture": "x86_64",
+			"Byte Order": "Little Endian",
+			"CPU(s)": "8",
+			"On-line CPU(s) list": "0-7",
+			"Vendor ID": "AuthenticAMD",
+			"BIOS Vendor ID": "Advanced Micro Devices, Inc.",
+			"Virtualization": "AMD-V"
+		},
+		"Scaling": {
+			"Frequency boost": "enabled",
+			"CPU(s) scaling MHz": "149%",
+			"CPU max MHz": "2100.0000",
+			"CPU min MHz": "1400.0000"
+		},
+		"Core": {
+			"Thread(s) per core": "2",
+			"Core(s) per socket": "4",
+			"L0d cache": "128 KiB",
+			"L0i cache": "256 KiB",
+			"L1 cache": "2 MiB",
+			"L2 cache": "4 MiB"
+		},
+		"Vulnerability": {
+			"Vulnerability Gather data sampling": "Not affected",
+			"Vulnerability Itlb multihit": "Not affected",
+			"Vulnerability L1tf": "Not affected",
+			"Vulnerability Mds": "Not affected",
+			"Vulnerability Meltdown": "Not affected",
+			"Vulnerability Mmio stale data": "Not affected",
+			"Vulnerability Retbleed": "Mitigation; untrained return thunk; SMT vulnerable",
+			"Vulnerability Spec rstack overflow": "Mitigation; safe RET",
+			"Vulnerability Spec store bypass": "Mitigation; Speculative Store Bypass disabled via prctl",
+			"Vulnerability Spectre v1": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization",
+			"Vulnerability Spectre v2": "Mitigation; Retpolines, IBPB conditional, STIBP disabled, RSB filling, PBRSB-eIBRS Not affected",
+			"Vulnerability Srbds": "Not affected",
+			"Vulnerability Tsx async abort": "Not affected"
+		},
+		"characteristics": [
+			"64-bit capable",
+			"Multi-Core",
+			"Hardware Thread",
+			"Execute Protection",
+			"Enhanced Virtualization",
+			"Power/Performance Control"
+		],
+		"flags": [
+			"FPU (Floating-point unit on-chip)",
+			"VME (Virtual mode extension)",
+			"DE (Debugging extension)",
+			"PSE (Page size extension)",
+			"TSC (Time stamp counter)",
+			"MSR (Model specific registers)",
+			"PAE (Physical address extension)",
+			"MCE (Machine check exception)",
+			"CX8 (CMPXCHG8 instruction supported)",
+			"APIC (On-chip APIC hardware supported)",
+			"SEP (Fast system call)",
+			"MTRR (Memory type range registers)",
+			"PGE (Page global enable)",
+			"MCA (Machine check architecture)",
+			"CMOV (Conditional move instruction supported)",
+			"PAT (Page attribute table)",
+			"PSE-36 (36-bit page size extension)",
+			"CLFSH (CLFLUSH instruction supported)",
+			"MMX (MMX technology supported)",
+			"FXSR (FXSAVE and FXSTOR instructions supported)",
+			"SSE (Streaming SIMD extensions)",
+			"SSE2 (Streaming SIMD extensions 2)",
+			"HTT (Multi-threading)"
+		]
+	},
+	"BIOS": {
+		"About": {
+			"vendor": "American Megatrends INC",
+			"version": "FX705DT.316",
+			"release_date": "01/28/2021",
+			"runtime_size": "64 KB",
+			"rom_size": "16 MB",
+			"bios_revision": "5.14",
+			"firmware_revision": "16.0"
+		},
+		"characteristics": [
+			"PCI is supported",
+			"BIOS is upgradeable",
+			"BIOS shadowing is allowed",
+			"Boot from CD is supported",
+			"Selectable boot is supported",
+			"BIOS ROM is socketed",
+			"EDD is supported",
+			"5.25\"/1.2 MB floppy services are supported (int 13h)",
+			"3.5\"/720 kB floppy services are supported (int 13h)",
+			"3.5\"/2.88 MB floppy services are supported (int 13h)",
+			"Print screen service is supported (int 5h)",
+			"8042 keyboard services are supported (int 9h)",
+			"Serial services are supported (int 14h)",
+			"Printer services are supported (int 17h)",
+			"ACPI is supported",
+			"USB legacy is supported",
+			"BIOS boot specification is supported",
+			"Targeted content distribution is supported",
+			"UEFI is supported"
+		]
+	}
+}
