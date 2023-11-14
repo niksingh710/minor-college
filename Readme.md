@@ -49,7 +49,13 @@ cat ~/.local/share/minor-college/setup | bash -s uninstall
 curl -s https://raw.githubusercontent.com/niksingh710/minor-college/master/setup | bash -s update
 ```
 
+# UI
+The ui is built using `Svelte Kit` & `Tailwind CSS` and `skeleton`
+![Screenshot](./assets/preview1.png)
+![Screenshot](./assets/preview2.png)
 
+
+The Repository for UI is at [minor-college-ui](https://github.com/K4r7ik/minorNik)
 
 
 ## Contributing
